@@ -64,7 +64,7 @@ def time_evolution(psi, A, B, Nt):
         psi = normalize(psi, dx)  # Normalize the wavefunction at each step
     return psi
 
-## How should I define psi_0? ##
+## How should I define psi_0? As a sum of c_n and psi_n?##
 
 
 
