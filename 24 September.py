@@ -11,6 +11,7 @@ x_max = 100*a_0
 dx = 0.06*a_0 #Spatial step size
 d_tau = 0.02 #imaginary Time step size
 N = int(L/dx) #Number of spatial points
+Nt = int(1/d_tau) #Number of time step
 x = np.linspace(x_min, x_max, N) #Spatial grid
 hbar = 1  # reduced Planck's constant J=1/s
 m_e = 9.10938356e-31  # Electron mass in kg
@@ -58,14 +59,20 @@ def normalize(psi, dx):
 
 # Time evolution using Crank-Nicolson method (Imaginary time)
 #Nt : number of time step
-def time_evolution(psi, A, B, Nt):
+def time_evolution(psi, A, B, Nt, dx):
     for _ in range(Nt):
         psi = la.solve(A, np.dot(B, psi))
         psi = normalize(psi, dx)  # Normalize the wavefunction at each step
     return psi
 
-## How should I define psi_0? As a sum of c_n and psi_n?##
 
+def psi_0(x, dx):
+    psi = np.exp(-x ** 2)  # for gaussian wavepacket
+    psi = normalize(psi, dx)  # Normalize the initial wavefunction
+    psi_0 = time_evolution(psi, A, B, Nt, dx) #Time evolution to find the psi_0
+    return psi_0
+
+psi_0=psi_0(x,dx)
 
 
 
